@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="center-container">
+        <h1>Madness Street Wars</h1>
+        <div class="buttons-container">
+            <button onclick="register()">Register</button>
+            <button onclick="contactSupport()">Contact Support</button>
+            <button onclick="lastUpdates()">Last Updates</button>
+            <button onclick="specialThanks()">Special Thanks</button>
+        </div>
+    </div>
+
+    <!-- POPUP REGISTRAZIONE -->
+    <div id="register-popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeRegister()">&times;</span>
+            <h2>Register</h2>
+            <form id="register-form">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+            <p id="register-message"></p>
+        </div>
+    </div>
+
+    <script src="/js/main.js"></script>
+    <script>
+        function specialThanks() {
+            window.location.href = '/special-thanks';
+        }
+    </script>
+</body>
+</html>
+<!-- POPUP CONTACT SUPPORT -->
+<div id="contact-popup" class="popup">
+    <div class="popup-content">
+        <span class="close" onclick="closeContact()">&times;</span>
+        <h2>Contact Support</h2>
+        <p>Send a message on Telegram: <strong>MrWimbleton</strong> to get support</p>
+    </div>
+</div>

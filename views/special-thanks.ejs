@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Special Thanks</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="center-container">
+        <h1>ALL SPECIAL THANKS TO:</h1>
+        <div class="thanks-names">
+            <% names.forEach(function(name) { %>
+                <span><%= name %></span>
+            <% }); %>
+        </div>
+        <button onclick="goBack()">Back</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
