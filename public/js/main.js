@@ -1,4 +1,4 @@
-// Popup Register
+// === POPUP REGISTER ===
 function showRegister() {
     document.getElementById('register-popup').style.display = 'flex';
 }
@@ -7,38 +7,34 @@ function closeRegister() {
     document.getElementById('register-popup').style.display = 'none';
 }
 
-// Funzione Register aggiornata
 function register() {
     showRegister();
 }
 
-// Invio dati del form
-document.getElementById('register-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    fetch('/register', {
-        method: 'POST',
-        body: new URLSearchParams(formData)
-    })
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById('register-message').textContent = data.message;
-            if (data.success) {
-                setTimeout(() => closeRegister(), 1500);
-                this.reset();
-            }
-        });
+// Gestione invio form
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById('register-form');
+    const message = document.getElementById('register-message');
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch('/register', {
+            method: 'POST',
+            body: new URLSearchParams(formData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                message.textContent = data.message;
+                if (data.success) {
+                    setTimeout(() => closeRegister(), 1500);
+                    this.reset();
+                }
+            });
+    });
 });
 
-// Altre funzioni
-function contactSupport() {
-    alert("Sezione Contact Support non ancora implementata!");
-}
-
-function lastUpdates() {
-    alert("Sezione Last Updates non ancora implementata!");
-}
-// Popup Contact Support
+// === POPUP CONTACT SUPPORT ===
 function showContact() {
     document.getElementById('contact-popup').style.display = 'flex';
 }
@@ -47,10 +43,21 @@ function closeContact() {
     document.getElementById('contact-popup').style.display = 'none';
 }
 
-// Aggiorna la funzione contactSupport
 function contactSupport() {
     showContact();
 }
+
+// === LAST UPDATES ===
 function lastUpdates() {
     window.location.href = '/last-updates';
+}
+
+// === SPECIAL THANKS ===
+function specialThanks() {
+    window.location.href = '/special-thanks';
+}
+
+// === PLAY NOW ===
+function playNow() {
+    window.open('/game', '_blank', 'width=1920,height=1080');
 }

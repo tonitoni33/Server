@@ -8,7 +8,9 @@
 <body>
     <div class="center-container">
         <h1>Madness Street Wars</h1>
+
         <div class="buttons-container">
+            <button onclick="playNow()">Play Now</button>
             <button onclick="register()">Register</button>
             <button onclick="contactSupport()">Contact Support</button>
             <button onclick="lastUpdates()">Last Updates</button>
@@ -16,7 +18,7 @@
         </div>
     </div>
 
-    <!-- POPUP REGISTRAZIONE -->
+    <!-- POPUP REGISTER -->
     <div id="register-popup" class="popup">
         <div class="popup-content">
             <span class="close" onclick="closeRegister()">&times;</span>
@@ -31,19 +33,15 @@
         </div>
     </div>
 
+    <!-- POPUP CONTACT SUPPORT -->
+    <div id="contact-popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closeContact()">&times;</span>
+            <h2>Contact Support</h2>
+            <p>Send a message on Telegram: <strong>MrWimbleton</strong> to get support</p>
+        </div>
+    </div>
+
     <script src="/js/main.js"></script>
-    <script>
-        function specialThanks() {
-            window.location.href = '/special-thanks';
-        }
-    </script>
 </body>
 </html>
-<!-- POPUP CONTACT SUPPORT -->
-<div id="contact-popup" class="popup">
-    <div class="popup-content">
-        <span class="close" onclick="closeContact()">&times;</span>
-        <h2>Contact Support</h2>
-        <p>Send a message on Telegram: <strong>MrWimbleton</strong> to get support</p>
-    </div>
-</div>
