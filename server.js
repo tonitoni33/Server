@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 // ✅ Rotta SPECIAL THANKS
 app.get('/special-thanks', (req, res) => {
     res.render('special-thanks', {
-        names: ['EL CHAPO', 'SBUCCHIA', 'FILL', 'GIULIA', 'ANDREA', 'SWALL']
+        names: ['TNS','ANTONIO', 'SBUCCHIA', 'FILL', 'GIULIA', 'ANDREA', 'SWALL']
     });
 });
 
