@@ -1,63 +1,66 @@
 ﻿const express = require('express');
 const path = require('path');
-const cors = require('cors'); // ✅ Serve per permettere richieste da Unity o da altri domini
+const cors = require('cors');
+const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ Abilita CORS (necessario per richieste esterne come Unity)
+// ✅ Abilita CORS (necessario per richieste WebGL)
 app.use(cors());
 
-// ✅ Middleware per leggere i dati JSON e form
+// ✅ Middleware per leggere dati JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// ✅ Servire file statici (immagini, CSS, JS, ecc.)
+// ✅ Servire file statici generali (immagini, CSS, JS, ecc.)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ✅ Imposta EJS come template engine
+// ✅ Servire Unity WebGL
+app.use('/game', express.static(path.join(__dirname, 'public/game')));
+
+// ✅ EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// ✅ Database temporaneo in memoria
-const users = [];
+// ✅ Funzione helper per leggere users.json
+function readUsers() {
+    const filePath = path.join(__dirname, 'users.json');
+    if (!fs.existsSync(filePath)) return [];
+    const data = fs.readFileSync(filePath, 'utf8');
+    try {
+        return JSON.parse(data);
+    } catch (err) {
+        console.error('Errore parsing users.json:', err);
+        return [];
+    }
+}
 
-// ✅ Rotta principale (homepage)
-app.get('/', (req, res) => {
-    res.render('index', { title: 'Madness Street Wars' });
-});
+// ✅ Funzione helper per salvare utenti su users.json
+function saveUsers(users) {
+    const filePath = path.join(__dirname, 'users.json');
+    fs.writeFileSync(filePath, JSON.stringify(users, null, 2));
+}
 
-// ✅ Rotta SPECIAL THANKS
-app.get('/special-thanks', (req, res) => {
-    res.render('special-thanks', {
-        names: ['TNS','ANTONIO', 'SBUCCHIA', 'FILL', 'GIULIA', 'ANDREA', 'SWALL']
-    });
-});
-
-// ✅ Rotta LAST UPDATES
-app.get('/last-updates', (req, res) => {
-    res.render('last-updates', {
-        message:
-            "WE MADE IT!!! FIRST VERSION RELEASE: 1.5.3.6.ALPHA\nTHIS FIRST VERSION HAVE, A BEAUTIFUL MAP STARTER WITH HANDSOME MISSIONS, BEAUTIFUL CHARACTERS AND MORE!!!"
-    });
-});
-
-// ✅ Rotta REGISTRAZIONE (usata dal sito web)
+// ✅ Rotta REGISTRAZIONE
 app.post('/register', (req, res) => {
     const { email, username, password } = req.body;
+    const users = readUsers();
 
-    // Impedisce registrazioni duplicate
     if (users.some(u => u.email === email)) {
         return res.json({ success: false, message: 'Email già registrata!' });
     }
 
     users.push({ email, username, password });
-    console.log('Nuovo utente registrato:', { email, username, password });
+    saveUsers(users);
+
+    console.log('✅ Nuovo utente registrato:', { email, username, password });
     res.json({ success: true, message: 'Registrazione completata!' });
 });
 
-// ✅ Rotta LOGIN (usata da Unity)
+// ✅ Rotta LOGIN (Unity WebGL)
 app.post('/login', (req, res) => {
     const { email, username, password } = req.body;
+    const users = readUsers();
 
     const user = users.find(
         u => u.email === email && u.username === username && u.password === password
@@ -72,12 +75,32 @@ app.post('/login', (req, res) => {
     }
 });
 
-// ✅ Rotta per il gioco (verrà usata in futuro con Unity WebGL)
-app.get('/game', (req, res) => {
-    res.render('game', { title: 'Madness Street Wars - MMO' });
+// ✅ Homepage
+app.get('/', (req, res) => {
+    res.render('index', { title: 'Madness Street Wars' });
 });
 
-// ✅ Avvio del server
+// ✅ Pagina SPECIAL THANKS
+app.get('/special-thanks', (req, res) => {
+    res.render('special-thanks', {
+        names: ['TNS', 'ANTONIO', 'SBUCCHIA', 'FILL', 'GIULIA', 'ANDREA', 'SWALL']
+    });
+});
+
+// ✅ Pagina LAST UPDATES
+app.get('/last-updates', (req, res) => {
+    res.render('last-updates', {
+        message:
+            "WE MADE IT!!! FIRST VERSION RELEASE: 1.5.3.6.ALPHA\nTHIS FIRST VERSION HAVE, A BEAUTIFUL MAP STARTER WITH HANDSOME MISSIONS, BEAUTIFUL CHARACTERS AND MORE!!!"
+    });
+});
+
+// ✅ Rotta Unity WebGL
+app.get('/play', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/game/index.html'));
+});
+
+// ✅ Avvio server
 app.listen(PORT, () => {
     console.log(`✅ Server avviato su http://localhost:${PORT}`);
 });
