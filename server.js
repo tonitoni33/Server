@@ -91,7 +91,7 @@ app.get('/special-thanks', (req, res) => {
 app.get('/last-updates', (req, res) => {
     res.render('last-updates', {
         message:
-            "WE MADE IT!!! FIRST VERSION RELEASE: 1.5.3.6.ALPHA\nTHIS FIRST VERSION HAVE, A BEAUTIFUL MAP STARTER WITH HANDSOME MISSIONS, BEAUTIFUL CHARACTERS AND MORE!!!"
+            "HERE WE GO VERSION ALPHA 1.5.3.B THIS VERSION INTRODUCE A NEW AREA BUG FIXING"
     });
 });
 
